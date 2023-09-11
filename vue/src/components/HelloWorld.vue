@@ -7,29 +7,18 @@
 </template>
 
 <script>
+
+import { io } from "socket.io-client";
 export default {
   methods: {
     connectWebSocket() {
-      this.socket = new WebSocket("ws://localhost:3000"); // WebSocket connection to your server
 
-      this.socket.onopen = () => {
-        console.log("WebSocket connected");
-      };
+      this.socket = io("ws://localhost:3000"); // Socket.io connection to your server
 
-      this.socket.onmessage = (event) => {
-        console.log("Message received:", event.data);
-      };
-
-      this.socket.onclose = (event) => {
-        console.log("WebSocket closed:", event);
-      };
-
-      this.socket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
     },
     sayHello() {
-      this.socket.send("Hello");
+
+      this.socket.emit("message", "Hello");
     },
   },
   data() {
